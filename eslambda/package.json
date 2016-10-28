@@ -1,0 +1,19 @@
+{
+  "name": "eslambda",
+  "version": "1.0.0",
+  "description": "Stream CI logs to lambda",
+  "main": "s3_lambda_es.js",
+  "dependencies": {
+    "aws-sdk": "^2.6.12",
+    "byline": "^5.0.0",
+    "clf-parser": "^0.0.2",
+    "path": "^0.12.7",
+    "stream": "^0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -23,10 +23,10 @@ var stream = require('stream');
 
 /* Globals */
 var esDomain = {
-    endpoint: 'my-search-endpoint.amazonaws.com',
-    region: 'my-region',
-    index: 'logs',
-    doctype: 'apache'
+    endpoint: 'search-openshift-ci-rwfjuth3wbmcgeoo57w3za2cxq.us-east-1.es.amazonaws.com',
+    region: 'us-east-1',
+    index: 'ci-logs',
+    doctype: 'logs-raw'
 };
 var endpoint =  new AWS.Endpoint(esDomain.endpoint);
 var s3 = new AWS.S3();
@@ -112,7 +112,7 @@ function postDocumentToES(doc, context) {
 /* Lambda "main": Execution starts here */
 exports.handler = function(event, context) {
     console.log('Received event: ', JSON.stringify(event, null, 2));
-    
+
     /* == Streams ==
     * To avoid loading an entire (typically large) log file into memory,
     * this is implemented as a pipeline of filters, streaming log data
@@ -123,8 +123,7 @@ exports.handler = function(event, context) {
     // A stream of log records, from parsing each log line
     var recordStream = new stream.Transform({objectMode: true})
     recordStream._transform = function(line, encoding, done) {
-        var logRecord = parse(line.toString());
-        var serializedRecord = JSON.stringify(logRecord);
+        var serializedRecord = JSON.stringify({"line": line.toString()});
         this.push(serializedRecord);
         totLogLines ++;
         done();
